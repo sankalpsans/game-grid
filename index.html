@@ -1,0 +1,75 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <div id="gamegrid"></div>
+        <div>><input type="text" placeholder="Enter command here" id="logo-input"></div>
+        <div id="command-history"></div>
+    </body>
+    <!-- Gamegrid SDK begins -->
+    <script>
+        /**
+         * The main function to be called when invoking the grid on any particular div
+         */
+        function gameGrid(id) {
+            console.log(id);
+            var grid = document.getElementById('gamegrid');
+            grid.innerHTML = populateGrid();
+        }
+        
+        function populateGrid() {
+            var htmlToReturn = getStyle() + getPixels(900);
+            return htmlToReturn;
+        }
+        
+        function getPixels(number) {
+            var htmlToReturn = "";
+            for(var i = 0; i < number; i = i + 1) {
+                htmlToReturn += '<div class="gg-pixel" id="gg-pixel-'+i+'"></div>';
+            }
+            return htmlToReturn;
+        }
+        
+        function getStyle() {
+            return '<style> #gamegrid{ width:300px;height:300px; background:#eee; } .gg-pixel:all{  }' +
+            ' .gg-pixel{ width:10px; height:10px; background:#ccc;float:left; } .gg-pixel:hover{ opacity:.1; } </style>';
+        }
+    </script>
+    <!-- Gamegrid SDK ends -->
+    
+    <!-- Command line SDK begin -->
+    <script>
+    initKeyStrokeOnInput();
+    function initKeyStrokeOnInput() {
+        document.onfocus = function(e) {
+            console.log(e);
+        }
+        document.getElementById('logo-input').onkeypress = function(e) {
+            if(e.which === 13) {
+                logoCommand(e.target.value);
+                document.getElementById('command-history').innerHTML = wrapCommandDisplay(e.target.value) + document.getElementById('command-history').innerHTML;
+                e.target.value = "";
+                return false;
+            }
+            return true;
+        }
+    }
+    
+    function logoCommand(command) {
+        console.log(command);
+    }
+    
+    function wrapCommandDisplay(command) {
+        return '<div class="command">'+command+'</div>';
+    }
+    </script>
+    <!-- Command line SDK ends -->
+    <script>
+        gameGrid("gamegrid");
+    </script>
+    <style>
+        .command{ font-family: monospace; }
+        body{ background: #000; color:#eee; }
+        #logo-input{ background: #000; border: 0; color: #ddd; }
+    </style>
+</html>
